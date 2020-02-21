@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>扭蛋日程落地页</title>
+  <!-- Load Styles -->
+  <link href="css/styles.css" rel="stylesheet">
+  <!-- Load icons -->
+  <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+  <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule="" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.js"></script>
+  <!-- Load jquery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- Load js -->
+  <script src="js/app.js"></script>
+
+</head>
+<body>
+  <!-- HTML Follows BEM naming conventions 
+  IDs are only used for sections to connect menu achors to sections -->
+  <header class="page__header">
+    <nav class="navbar__menu">
+      <!-- Navigation starts as empty UL that will be populated with JS -->
+      <ul id="navbar__list"></ul>
+    </nav>
+  </header>
+  <main>
+    <header class="main__hero" id="top">
+      <h1>扭蛋日程</h1>
+      <h3>你的游戏活动管理神器</h3>
+    </header>
+    <!-- Each Section has an ID (used for the anchor) and 
+    a data attribute that will populate the li node.
+    Adding more sections will automatically populate nav.
+    The first section is set to active class by default -->
+    <section>
+      <div class="landing__container"></div>
+    </section>
+    <button id="backToTop" onclick="toTop()">
+      <ion-icon name="arrow-up-sharp"></ion-icon>
+    </button>
+  </main>
+  <footer class="page__footer">
+    <p>&copy Udacity</p>
+  </footer>
+
+</body>
+</html>
