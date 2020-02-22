@@ -32,8 +32,8 @@ let content = [
 // 建立往页面添加模块的函数式
 function addSection(x){
     let sections = document.querySelector('section');
-    for (var y=1; y<x.length; y+=1){
-        sections.insertAdjacentHTML('afterend', `<section><div class="landing__container"></div></section>`);
+    for (var y=6; y>0; y--){
+        sections.insertAdjacentHTML('afterend', `<section id='s${y}'><div class="landing__container"></div></section>`);
     }
 }
 // 建立往模块内添加内容的函数式
@@ -63,20 +63,87 @@ function addContent(x){
 function navBar(x){
     let addnavbar = document.querySelector("#navbar__list");
     for(var y=0; y<x.length; y+=1){
-        addnavbar.insertAdjacentHTML('beforeend',`<li id="${y}" class="nav_list"> ${x[y][0]} </li>`);
+        addnavbar.insertAdjacentHTML('beforeend',`<li id="${y}" class="nav_list""> ${x[y][0]} </li>`);
     };
 }
 
 // build toTop Button
-function toTop(){
+// 建立 toTop 按钮，点击按钮滚动回到页面顶部
+function toTop() {
     let top = setInterval(function (){
 　　　　 let current = document.documentElement.scrollTop;
 　　　　 if(current === 0){
             clearInterval(top);
 　　　　 }
-　　　　 ele.scrollTop = current - 100
-　　　　 } , 16)
+　　　　 ele.scrollTop = current - 100;
+　　} , 16)
 }
+// scroll to section
+// 当点击导航栏的标题时，页面跳转到相应模块的位置。
+let ele = document.documentElement;
+let bod = document.body;
+function nav_event() {
+    $('.nav_list').click(function(){
+        let listId = parseFloat($(this).attr("id"));
+        $(document.documentElement).animate({
+            scrollTop: (listId+1) * $(window).height() * 0.87
+        }, 500);
+    })
+}
+
+// highlight Menue
+// 当页面滚动到模块时，导航栏的相应模块标题高亮。当页面从模块移开时，高亮标题取消。
+function highlight_nav() {
+    let li_before_style = {'color':'#999999','font-size': '1.1em','font-weight': 'lighter',}
+    let li_after_style = {'color':'#2F54EB','font-size': '1.2em','font-weight': 'bold',}
+    let section_before_style = {'background': '#f3f3f3'};
+    let section_after_style = {'background': '#fafafa'};
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let windowHeight = ele.clientHeight || bod.clientHeight;
+    for(i=0; i<=6; i++){
+        if (scrollTop<=windowHeight*(i+1) && scrollTop > windowHeight*i){
+            $('li').css(li_before_style);
+            $('#'+i).css(li_after_style);
+            $('section').css(section_before_style);
+            $('#s'+i).css(section_after_style);
+        }
+    }
+}
+
+// back to top button的渐隐特效
+function toTop_event() {
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let windowHeight = ele.clientHeight || bod.clientHeight;
+    let scrollHeight = ele.scrollHeight || bod.scrollHeight;
+    let totop = document.querySelector("#backToTop");
+    let opacity2 = 0;
+    let w2=windowHeight * 2
+    if (scrollTop+w2<scrollHeight) {
+        opacity2 = 0
+    } else if (scrollTop+w2>= scrollHeight){
+        opacity2 = 1 - ((scrollHeight - scrollTop - windowHeight) * 0.001);
+    }
+        else {
+        opacity2 = 1;
+    };
+    totop.style.opacity = opacity2;
+}
+// 导航栏的出现及隐藏
+// 当页面滚动超过主标题，导航栏渐显示。反之当页面回到主标题栏，导航栏隐藏。
+function navbar_event(){
+    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let windowHeight = ele.clientHeight || bod.clientHeight;
+    let scrollHeight = ele.scrollHeight || bod.scrollHeight;
+    let navbar = document.querySelector(".page__header");
+    let opacity = 0;
+    if (scrollTop >= (windowHeight-200)) {
+        opacity = 1;
+    } else {
+        opacity = 0;
+    };
+    navbar.style.opacity = opacity;
+}
+
 // Add class 'active' to section when near top of viewport
 // Scroll to anchor ID using scrollTO event
 /**
@@ -87,63 +154,16 @@ function toTop(){
 // Build menu 
 // Scroll to section on link click
 // Set sections as active
-let ele = document.documentElement;
-let bod = document.body;
+
 window.onscroll = function(){
-    let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    let windowHeight = ele.clientHeight || bod.clientHeight;
-    let scrollHeight = ele.scrollHeight || bod.scrollHeight;
-    // 当页面滚动超过主标题，导航栏渐显示。反之当页面回到主标题栏，导航栏隐藏。
-    let navbar = document.querySelector(".page__header");
-    let opacity = 0;
-    let navbarF = function() {
-        if (scrollTop >= (windowHeight-200)) {
-            opacity = 1;
-        } else {
-            opacity = 0;
-        }
-    }();
-    navbar.style.opacity = opacity;
-    //-------------------------------------------------------------------------------------------------------------------------
-    // back to top button的渐隐特效
-    let totop = document.querySelector("#backToTop");
-    let opacity2 = 0;
-    let w2=windowHeight * 2
-    let toTopF = function() {
-        if (scrollTop+w2<scrollHeight) {
-            opacity2 = 0
-        } else if (scrollTop+w2>= scrollHeight){
-            opacity2 = 1 - ((scrollHeight - scrollTop - windowHeight) * 0.001);
-        }
-         else {
-            opacity2 = 1;
-        };
-    }();
-    totop.style.opacity = opacity2;
-    //-------------------------------------------------------------------------------------------------------------------------
-    // 当页面滚动到模块时，导航栏的相应模块标题高亮。当页面从模块移开时，高亮标题取消。
-    let li_before_style = {'color':'#999999','font-size': '1.1em','font-weight': 'lighter',}
-    let li_after_style = {'color':'#2F54EB','font-size': '1.2em','font-weight': 'bold',}
-    let navbar_active = function() {
-        for(i=0; i<=6; i++){
-            if (scrollTop<=windowHeight*(i+1) && scrollTop > windowHeight*i){
-                $('li').css(li_before_style);
-                $('#'+i).css(li_after_style);
-            }
-        }
-    }()
-    //-------------------------------------------------------------------------------------------------------------------------
-    // 当点击导航栏的标题时，页面跳转到相应模块的位置。
-    let navbar_click_active = function() {
-        $('.nav_list').click(function(){
-            let listId = parseFloat($(this).attr("id"));
-            ele.scrollTop = (listId+1) * windowHeight * 0.87
-        })
-    }()
+    toTop_event()
+    highlight_nav()
+    navbar_event()
 }
 
 window.addEventListener("load",function() {
-    addSection(content)
-    addContent(content)
-    navBar(content)
+    addSection(content);
+    addContent(content);
+    navBar(content);
+    nav_event();
 })

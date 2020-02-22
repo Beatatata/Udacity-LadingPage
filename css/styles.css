@@ -38,7 +38,7 @@ body {
         font-family: 'Fira Sans', sans-serif;
         font-size: 1.5em;
         font-weight: 300;
-        margin: 0em 1rem 8em;
+        margin: 0em 1rem 12em;
     }
 
 }
@@ -81,7 +81,7 @@ body {
 
 /* ---- Layout Rules ---- */
 main {
-    margin: 10vh 1em 10vh;
+    margin: 10vh 0em 10vh;
 }
 
 .main-hero {
@@ -126,7 +126,7 @@ li::before {
     left: 0;
     width: 0;
     height: 85%;
-    border-bottom: 4px solid #2F54EB;
+    /* border-bottom: 4px solid #2F54EB; */
     transition: 0.2s all linear;
 }
 
